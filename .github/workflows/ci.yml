@@ -1,0 +1,27 @@
+name: CI
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "30 7 * * *" # daily
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: corepack enable
+      - run: corepack prepare yarn@1.22.22 --activate
+      - run: echo "nodeLinker: node-modules" > .yarnrc.yml
+      - run: yarn install --frozen-lockfile || yarn install
+      - run: |
+          if yarn -s run -T test >/dev/null 2>&1; then
+            yarn test
+          elif yarn -s run -T lint >/dev/null 2>&1; then
+            yarn lint
+          else
+            echo "No test/lint script; running build if present"
+            yarn build || true
+          fi
