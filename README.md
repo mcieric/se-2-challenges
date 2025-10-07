@@ -160,3 +160,14 @@ Iterate as necessary, repeating the steps, to get it just right.
 ### 4. Submit a PR
 
 Once you have iterated your challenge to perfection, you can ask a maintainer to add a branch for your challenge and then submit a pull request to that branch. Expect to make a few passes of revisions as we test these challenges extensively.
+
+---
+
+## How to run locally
+
+1. Install dependencies  
+   ```bash
+   corepack enable
+   corepack prepare yarn@1.22.22 --activate
+   yarn install
+
